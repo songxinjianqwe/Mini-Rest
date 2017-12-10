@@ -1,1 +1,1 @@
-# MiniRest web-rest实现
+# 简化版web-rest实现
