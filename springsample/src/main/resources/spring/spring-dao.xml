@@ -27,7 +27,7 @@
         <property name="maxWait" value="${jdbc.maxWait}"/>
         <property name="filters" value="${druid.filters}"/>
     </bean>
-
+    
     <!-- MyBatis的Session工厂 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
