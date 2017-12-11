@@ -11,12 +11,9 @@
     <modules>
         <module>core</module>
         <module>web</module>
-        <module>jdbc</module>
-        <module>example</module>
         <module>tx</module>
-        <module>aop</module>
         <module>sample</module>
-        <module>security</module>
+        <module>springsample</module>
     </modules>
 
 

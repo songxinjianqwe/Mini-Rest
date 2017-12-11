@@ -12,29 +12,5 @@
     <artifactId>sample</artifactId>
     
     <dependencies>
-        <dependency>
-            <groupId>cn.sinjinsong</groupId>
-            <artifactId>aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sinjinsong</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sinjinsong</groupId>
-            <artifactId>jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sinjinsong</groupId>
-            <artifactId>tx</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sinjinsong</groupId>
-            <artifactId>web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sinjinsong</groupId>
-            <artifactId>security</artifactId>
-        </dependency>
     </dependencies>
 </project>
