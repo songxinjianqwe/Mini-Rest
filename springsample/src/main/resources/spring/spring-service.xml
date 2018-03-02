@@ -15,7 +15,8 @@
     <context:component-scan
             base-package=
                     "cn.sinjinsong.sample.service,
-                    cn.sinjinsong.sample.properties"/>
+                    cn.sinjinsong.sample.properties,
+                    cn.sinjinsong.sample.circle"/>
 
     <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
         <property name="locations">

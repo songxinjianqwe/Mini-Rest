@@ -32,7 +32,7 @@ public final class SpringContextUtil implements ApplicationContextAware {
         SpringContextUtil.applicationContext = applicationContext;
     }
 
-    public static <T> T getBean(String beanId) {
+    public static <T> T getgBean(String beanId) {
         T bean = null;
         try {
             if (StringUtils.isNotEmpty(StringUtils.trim(beanId))) {
