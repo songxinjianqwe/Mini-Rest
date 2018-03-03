@@ -16,6 +16,8 @@
         <module>springsample</module>
         <module>util</module>
         <module>context</module>
+        <module>beans</module>
+        <module>aop</module>
     </modules>
     <build>
         <plugins>
