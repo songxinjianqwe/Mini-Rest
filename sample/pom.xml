@@ -27,11 +27,6 @@
         </dependency>
         <dependency>
             <groupId>com.minirest</groupId>
-            <artifactId>core</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.minirest</groupId>
             <artifactId>tx</artifactId>
             <version>${parent.version}</version>
         </dependency>

@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>com.minirest</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>beans</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>

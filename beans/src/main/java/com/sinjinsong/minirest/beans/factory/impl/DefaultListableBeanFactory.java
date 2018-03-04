@@ -1,0 +1,78 @@
+package com.sinjinsong.minirest.beans.factory.impl;
+
+import com.sinjinsong.minirest.util.StringUtils;
+import com.sinjinsong.minirest.beans.exception.BeansException;
+import com.sinjinsong.minirest.beans.factory.ConfigurableListableBeanFactory;
+import com.sinjinsong.minirest.beans.support.BeanDefinition;
+import com.sinjinsong.minirest.beans.support.BeanDefinitionRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * @author sinjinsong
+ * @date 2018/3/4
+ */
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
+        implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {
+
+    private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
+    private List<String> beanDefinitionNames = new ArrayList<>();
+
+    @Override
+    public Object getBean(String name) throws BeansException {
+        BeanDefinition beanDefinition = getBeanDefinition(name);
+        if (beanDefinition == null) {
+            throw new IllegalArgumentException("bean " + name + " did not exist");
+        }
+        return createBean(name, beanDefinition);
+    }
+
+    @Override
+    public void preInstantiateSingletons() {
+        List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
+        for (String beanName : beanNames) {
+            getBean(beanName);
+        }
+    }
+
+
+    @Override
+    public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) throws BeansException {
+        this.beanDefinitionMap.put(beanName, beanDefinition);
+    }
+
+    @Override
+    public void removeBeanDefinition(String beanName) throws BeansException {
+        this.beanDefinitionMap.remove(beanName);
+    }
+
+    @Override
+    public BeanDefinition getBeanDefinition(String beanName) throws BeansException {
+        return this.beanDefinitionMap.get(beanName);
+    }
+
+    @Override
+    public boolean containsBeanDefinition(String beanName) {
+        return this.beanDefinitionMap.containsKey(beanName);
+    }
+
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return StringUtils.toStringArray(this.beanDefinitionNames);
+    }
+
+    @Override
+    public String[] getBeanNamesForType(Class<?> type) {
+        List<String> result = new ArrayList<>();
+        for (String beanName : this.beanDefinitionNames) {
+            BeanDefinition beanDefinition = getBeanDefinition(beanName);
+            if (type.isAssignableFrom(beanDefinition.getBeanClass())) {
+                result.add(beanName);
+            }
+        }
+        return StringUtils.toStringArray(result);
+    }
+}

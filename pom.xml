@@ -9,7 +9,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>core</module>
         <module>web</module>
         <module>tx</module>
         <module>sample</module>
@@ -18,6 +17,7 @@
         <module>context</module>
         <module>beans</module>
         <module>aop</module>
+        <module>common</module>
     </modules>
     <build>
         <plugins>

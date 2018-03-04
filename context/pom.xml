@@ -11,5 +11,11 @@
 
     <artifactId>context</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.minirest</groupId>
+            <artifactId>beans</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
 </project>
