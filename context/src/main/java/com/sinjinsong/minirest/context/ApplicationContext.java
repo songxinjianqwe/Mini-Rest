@@ -17,18 +17,6 @@
 package com.sinjinsong.minirest.context;
 
 import com.sinjinsong.minirest.beans.factory.ListableBeanFactory;
-import com.sinjinsong.minirest.beans.factory.AutowireCapableBeanFactory;
 
 public interface ApplicationContext extends ListableBeanFactory {
-
-	String getId();
-	
-	String getApplicationName();
-    
-	long getStartupDate();
-
-	ApplicationContext getParent();
-    
-	AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException;
-
 }

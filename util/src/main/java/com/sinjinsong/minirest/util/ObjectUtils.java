@@ -168,9 +168,9 @@ public abstract class ObjectUtils {
 	}
 
 	/**
-	 * Check whether the given array of enum constants contains a constant with the given name,
+	 * Check whether the given array of enumeration constants contains a constant with the given name,
 	 * ignoring case when determining a match.
-	 * @param enumValues the enum values to check, typically the product of a call to MyEnum.values()
+	 * @param enumValues the enumeration values to check, typically the product of a call to MyEnum.values()
 	 * @param constant the constant name to find (must not be null or empty string)
 	 * @return whether the constant has been found in the given array
 	 */
@@ -179,8 +179,8 @@ public abstract class ObjectUtils {
 	}
 
 	/**
-	 * Check whether the given array of enum constants contains a constant with the given name.
-	 * @param enumValues the enum values to check, typically the product of a call to MyEnum.values()
+	 * Check whether the given array of enumeration constants contains a constant with the given name.
+	 * @param enumValues the enumeration values to check, typically the product of a call to MyEnum.values()
 	 * @param constant the constant name to find (must not be null or empty string)
 	 * @param caseSensitive whether case is significant in determining a match
 	 * @return whether the constant has been found in the given array
@@ -200,9 +200,9 @@ public abstract class ObjectUtils {
 	 * Case insensitive alternative to {@link Enum#valueOf(Class, String)}.
 	 * @param <E> the concrete Enum type
 	 * @param enumValues the array of all Enum constants in question, usually per Enum.values()
-	 * @param constant the constant to get the enum value of
+	 * @param constant the constant to get the enumeration value of
 	 * @throws IllegalArgumentException if the given constant is not found in the given array
-	 * of enum values. Use {@link #containsConstant(Enum[], String)} as a guard to avoid this exception.
+	 * of enumeration values. Use {@link #containsConstant(Enum[], String)} as a guard to avoid this exception.
 	 */
 	public static <E extends Enum<?>> E caseInsensitiveValueOf(E[] enumValues, String constant) {
 		for (E candidate : enumValues) {
@@ -211,7 +211,7 @@ public abstract class ObjectUtils {
 			}
 		}
 		throw new IllegalArgumentException(
-				String.format("constant [%s] does not exist in enum type %s",
+				String.format("constant [%s] does not exist in enumeration type %s",
 						constant, enumValues.getClass().getComponentType().getName()));
 	}
 

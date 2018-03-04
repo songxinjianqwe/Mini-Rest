@@ -3,8 +3,8 @@ package com.sinjinsong.minirest.beans.factory.impl;
 import com.sinjinsong.minirest.util.StringUtils;
 import com.sinjinsong.minirest.beans.exception.BeansException;
 import com.sinjinsong.minirest.beans.factory.ConfigurableListableBeanFactory;
-import com.sinjinsong.minirest.beans.support.BeanDefinition;
-import com.sinjinsong.minirest.beans.support.BeanDefinitionRegistry;
+import com.sinjinsong.minirest.beans.support.beandefinition.BeanDefinition;
+import com.sinjinsong.minirest.beans.support.beandefinition.BeanDefinitionRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
     private List<String> beanDefinitionNames = new ArrayList<>();
-
+    
     @Override
     public Object getBean(String name) throws BeansException {
         BeanDefinition beanDefinition = getBeanDefinition(name);
@@ -31,7 +31,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     }
 
     @Override
-    public void preInstantiateSingletons() {
+    public void preInstantiateSingletons() throws BeansException {
         List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
         for (String beanName : beanNames) {
             getBean(beanName);
@@ -62,6 +62,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public String[] getBeanDefinitionNames() {
         return StringUtils.toStringArray(this.beanDefinitionNames);
+    }
+
+    @Override
+    public int getBeanDefinitionCount() {
+        return this.beanDefinitionMap.size();
     }
 
     @Override

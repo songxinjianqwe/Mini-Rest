@@ -1,4 +1,4 @@
-package com.sinjinsong.minirest.beans.support;
+package com.sinjinsong.minirest.beans.support.beandefinition;
 
 import com.sinjinsong.minirest.beans.exception.BeansException;
 
@@ -18,4 +18,6 @@ public interface BeanDefinitionRegistry {
 
     String[] getBeanDefinitionNames();
 
+
+    int getBeanDefinitionCount();
 }

@@ -1,4 +1,4 @@
-package com.minirest.web.servlet;
+package com.sinjinsong.minirest.web.servlet;
 
 /**
  * @author songx

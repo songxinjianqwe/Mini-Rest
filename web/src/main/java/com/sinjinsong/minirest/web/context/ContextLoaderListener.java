@@ -1,4 +1,4 @@
-package com.minirest.web.context;
+package com.sinjinsong.minirest.web.context;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

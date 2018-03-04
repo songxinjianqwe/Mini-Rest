@@ -1,4 +1,4 @@
-package com.minirest.sample.controller.user;
+package com.sinjinsong.minirest.sample.controller.user;
 
 /**
  * @author songx

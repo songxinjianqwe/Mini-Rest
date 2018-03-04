@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+    <bean id="person" class="com.sinjinsong.minirest.sample.main.Person">
+        <property name="age" value="13"></property>
+        <property name="name" value="sinjinsong"></property>
+        <property name="car" ref="car"></property>
+    </bean>
+    
+    <bean id="car" class="com.sinjinsong.minirest.sample.main.Car">
+        <property name="brand" value="tesla"></property>
+    </bean>
+</beans>

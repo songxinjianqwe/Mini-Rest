@@ -1,4 +1,4 @@
-package com.minirest.web.filter;
+package com.sinjinsong.minirest.web.filter;
 
 /**
  * @author songx

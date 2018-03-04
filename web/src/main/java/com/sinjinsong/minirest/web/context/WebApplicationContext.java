@@ -1,6 +1,6 @@
-package com.minirest.web.context;
+package com.sinjinsong.minirest.web.context;
 
-import com.minirest.context.ApplicationContext;
+import com.sinjinsong.minirest.context.ApplicationContext;
 
 /**
  * @author songx

@@ -7,8 +7,10 @@ import com.sinjinsong.minirest.beans.factory.ConfigurableListableBeanFactory;
  * @author sinjinsong
  * @date 2018/3/4
  */
-public interface ConfigurableApplicationContext extends ApplicationContext{
-    void refresh() throws BeansException, IllegalStateException;
+public interface ConfigurableApplicationContext extends ApplicationContext {
+    void refresh() throws Exception;
+
     void close();
+    
     ConfigurableListableBeanFactory getBeanFactory() throws IllegalStateException;
 }

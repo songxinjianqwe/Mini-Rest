@@ -17,7 +17,7 @@
 package com.sinjinsong.minirest.core.io;
 
 
-import com.minirest.util.ResourceUtils;
+import com.sinjinsong.minirest.util.ResourceUtils;
 
 public interface ResourceLoader {
 

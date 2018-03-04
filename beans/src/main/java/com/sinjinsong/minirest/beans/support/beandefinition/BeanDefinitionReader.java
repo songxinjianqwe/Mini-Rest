@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.sinjinsong.minirest.beans.support;
+package com.sinjinsong.minirest.beans.support.beandefinition;
 
 
 import com.sinjinsong.minirest.beans.exception.BeansException;
+import com.sinjinsong.minirest.core.io.Resource;
 import com.sinjinsong.minirest.core.io.ResourceLoader;
 
 public interface BeanDefinitionReader {
@@ -28,5 +29,6 @@ public interface BeanDefinitionReader {
 
     int loadBeanDefinitions(String location) throws BeansException;
 
-    int loadBeanDefinitions(String... locations) throws BeansException;
+    int loadBeanDefinitions(Resource resource) throws BeansException;
+
 }

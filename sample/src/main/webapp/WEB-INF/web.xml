@@ -10,12 +10,12 @@
     </context-param>
     
     <listener>
-        <listener-class>com.minirest.web.context.ContextLoaderListener</listener-class>
+        <listener-class>com.sinjinsong.minirest.web.context.ContextLoaderListener</listener-class>
     </listener>
 
     <servlet>
         <servlet-name>springDispatcherServlet</servlet-name>
-        <servlet-class>com.minirest.web.servlet.DispatcherServlet</servlet-class>
+        <servlet-class>com.sinjinsong.minirest.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:minirest/minirest-web.xml</param-value>
@@ -30,7 +30,7 @@
     <!-- 字符编码过滤器 ，必须是第一个过滤器-->
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
-        <filter-class>com.minirest.web.filter.CharacterEncodingFilter</filter-class>
+        <filter-class>com.sinjinsong.minirest.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -44,7 +44,7 @@
 
     <filter>
         <filter-name>HiddenHttpMethodFilter</filter-name>
-        <filter-class>com.minirest.web.filter.HiddenHttpMethodFilter</filter-class>
+        <filter-class>com.sinjinsong.minirest.web.filter.HiddenHttpMethodFilter</filter-class>
     </filter>
     
     <filter-mapping>

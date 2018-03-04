@@ -1,6 +1,6 @@
 package com.sinjinsong.minirest.beans.factory;
 
-import com.sinjinsong.minirest.beans.support.BeanDefinition;
+import com.sinjinsong.minirest.beans.support.beandefinition.BeanDefinition;
 
 /**
  * @author sinjinsong

@@ -1,4 +1,4 @@
-package com.minirest.web;
+package com.sinjinsong.minirest.web;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

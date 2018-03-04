@@ -1,9 +1,8 @@
 package com.sinjinsong.minirest.beans.factory.impl;
 
-import com.sinjinsong.minirest.beans.exception.BeansException;
-import com.sinjinsong.minirest.beans.support.BeanPostProcessor;
 import com.sinjinsong.minirest.beans.factory.ConfigurableBeanFactory;
-import com.sinjinsong.minirest.beans.support.BeanDefinition;
+import com.sinjinsong.minirest.beans.support.beandefinition.BeanDefinition;
+import com.sinjinsong.minirest.beans.support.BeanPostProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,8 @@ import java.util.List;
 public abstract class AbstractBeanFactory implements ConfigurableBeanFactory {
     private List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
     
-        
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition)
-            throws BeansException;
-    
-    
+            throws Exception;
     
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
