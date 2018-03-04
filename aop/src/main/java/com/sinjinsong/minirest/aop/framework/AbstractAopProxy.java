@@ -5,9 +5,9 @@ package com.sinjinsong.minirest.aop.framework;
  */
 public abstract class AbstractAopProxy implements AopProxy {
     
-    protected AdvisedSupport advised;
+    protected AdvisedSupport config;
 
-    public AbstractAopProxy(AdvisedSupport advised) {
-        this.advised = advised;
+    public AbstractAopProxy(AdvisedSupport config) {
+        this.config = config;
     }
 }

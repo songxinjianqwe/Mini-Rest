@@ -1,130 +1,88 @@
 package com.sinjinsong.minirest.aop.aspectj.autoproxy;
 
 import com.sinjinsong.minirest.aop.Advisor;
-import com.sinjinsong.minirest.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator;
-import com.sinjinsong.minirest.util.ClassUtils;
-import org.aopalliance.aop.Advice;
-import org.aspectj.util.PartialOrder;
+import com.sinjinsong.minirest.aop.TargetSource;
+import com.sinjinsong.minirest.aop.aspectj.AspectJExpressionPointcutAdvisor;
+import com.sinjinsong.minirest.aop.framework.ProxyFactory;
+import com.sinjinsong.minirest.beans.exception.BeansException;
+import com.sinjinsong.minirest.beans.factory.BeanFactory;
+import com.sinjinsong.minirest.beans.factory.ListableBeanFactory;
+import com.sinjinsong.minirest.beans.support.BeanFactoryAware;
+import com.sinjinsong.minirest.beans.support.BeanPostProcessor;
+import com.sinjinsong.minirest.beans.utils.BeanFactoryUtils;
+import org.aopalliance.intercept.MethodInterceptor;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
-@SuppressWarnings("serial")
-public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreator {
+public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
+    private ListableBeanFactory beanFactory;
 
-	private static final Comparator<Advisor> DEFAULT_PRECEDENCE_COMPARATOR = new AspectJPrecedenceComparator();
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        if (beanFactory instanceof ListableBeanFactory) {
+            this.beanFactory = (ListableBeanFactory) beanFactory;
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
 
-	/**
-	 * Sort the rest by AspectJ precedence. If two pieces of advice have
-	 * come from the same aspect they will have the same order.
-	 * Advice from the same aspect is then further ordered according to the
-	 * following rules:
-	 * <ul>
-	 * <li>if either of the pair is after advice, then the advice declared
-	 * last gets highest precedence (runs last)</li>
-	 * <li>otherwise the advice declared first gets highest precedence (runs first)</li>
-	 * </ul>
-	 * <p><b>Important:</b> Advisors are sorted in precedence order, from highest
-	 * precedence to lowest. "On the way in" to a join point, the highest precedence
-	 * advisor should run first. "On the way out" of a join point, the highest precedence
-	 * advisor should run last.
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	protected List<Advisor> sortAdvisors(List<Advisor> advisors) {
-		List<PartiallyComparableAdvisorHolder> partiallyComparableAdvisors =
-				new ArrayList<>(advisors.size());
-		for (Advisor element : advisors) {
-			partiallyComparableAdvisors.add(
-					new PartiallyComparableAdvisorHolder(element, DEFAULT_PRECEDENCE_COMPARATOR));
-		}
-		List<PartiallyComparableAdvisorHolder> sorted =
-				PartialOrder.sort(partiallyComparableAdvisors);
-		if (sorted != null) {
-			List<Advisor> result = new ArrayList<>(advisors.size());
-			for (PartiallyComparableAdvisorHolder pcAdvisor : sorted) {
-				result.add(pcAdvisor.getAdvisor());
-			}
-			return result;
-		}
-		else {
-			return super.sortAdvisors(advisors);
-		}
-	}
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-	/**
-	 * Adds an {@link ExposeInvocationInterceptor} to the beginning of the advice chain.
-	 * These additional advices are needed when using AspectJ expression pointcuts
-	 * and when using AspectJ-style advice.
-	 */
-	@Override
-	protected void extendAdvisors(List<Advisor> candidateAdvisors) {
-		AspectJProxyUtils.makeAdvisorChainAspectJCapableIfNecessary(candidateAdvisors);
-	}
+        if (isInfrastructureClass(bean.getClass())) {
+            return bean;
+        }
+        // 获取适合应用到该bean的所有advisor
+        List<Advisor> specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName);
+        if (specificInterceptors.size() > 0) {
+            // 创建代理
+            Object proxy = createProxy(new TargetSource(bean, bean.getClass(), bean.getClass().getInterfaces()), specificInterceptors);
+            return proxy;
+        }
+        return bean;
+    }
 
-	@Override
-	protected boolean shouldSkip(Class<?> beanClass, String beanName) {
-		// TODO: Consider optimization by caching the list of the aspect names
-		List<Advisor> candidateAdvisors = findCandidateAdvisors();
-		for (Advisor advisor : candidateAdvisors) {
-			if (advisor instanceof AspectJPointcutAdvisor) {
-				if (((AbstractAspectJAdvice) advisor.getAdvice()).getAspectName().equals(beanName)) {
-					return true;
-				}
-			}
-		}
-		return super.shouldSkip(beanClass, beanName);
-	}
+    private boolean isInfrastructureClass(Class<?> beanClass) {
+        return beanClass.isAssignableFrom(AspectJExpressionPointcutAdvisor.class) ||
+                beanClass.isAssignableFrom(MethodInterceptor.class);
+    }
 
+    /**
+     * 获取适合应用在该bean上的所有Advisor
+     *
+     * @param beanClass
+     * @param beanName
+     * @return
+     */
+    private List<Advisor> getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName) {
+        List<Advisor> result = new ArrayList<>();
+        Map<String, AspectJExpressionPointcutAdvisor> beans = BeanFactoryUtils.beansOfType(beanFactory, AspectJExpressionPointcutAdvisor.class);
+        beans.forEach((advisorBeanName, advisor) -> {
+            if (advisor.getPointcut().getClassFilter().matches(beanClass)) {
+                result.add(advisor);
+            }
+        });
+        return result;
+    }
 
-	/**
-	 * Implements AspectJ PartialComparable interface for defining partial orderings.
-	 */
-	private static class PartiallyComparableAdvisorHolder implements PartialComparable {
-
-		private final Advisor advisor;
-
-		private final Comparator<Advisor> comparator;
-
-		public PartiallyComparableAdvisorHolder(Advisor advisor, Comparator<Advisor> comparator) {
-			this.advisor = advisor;
-			this.comparator = comparator;
-		}
-
-		@Override
-		public int compareTo(Object obj) {
-			Advisor otherAdvisor = ((PartiallyComparableAdvisorHolder) obj).advisor;
-			return this.comparator.compare(this.advisor, otherAdvisor);
-		}
-
-		@Override
-		public int fallbackCompareTo(Object obj) {
-			return 0;
-		}
-
-		public Advisor getAdvisor() {
-			return this.advisor;
-		}
-
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			Advice advice = this.advisor.getAdvice();
-			sb.append(ClassUtils.getShortName(advice.getClass()));
-			sb.append(": ");
-			if (this.advisor instanceof Ordered) {
-				sb.append("order ").append(((Ordered) this.advisor).getOrder()).append(", ");
-			}
-			if (advice instanceof AbstractAspectJAdvice) {
-				AbstractAspectJAdvice ajAdvice = (AbstractAspectJAdvice) advice;
-				sb.append(ajAdvice.getAspectName());
-				sb.append(", declaration order ");
-				sb.append(ajAdvice.getDeclarationOrder());
-			}
-			return sb.toString();
-		}
-	}
-
+    /**
+     * 创建代理
+     *
+     * @param advisors
+     * @param targetSource
+     * @return
+     */
+    protected Object createProxy(
+            TargetSource targetSource, List<Advisor> advisors) {
+        ProxyFactory proxyFactory = new ProxyFactory(targetSource);
+        proxyFactory.addAdvisors(advisors);
+        return proxyFactory.getProxy();
+    }
 }

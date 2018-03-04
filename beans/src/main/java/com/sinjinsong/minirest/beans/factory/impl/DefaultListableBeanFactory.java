@@ -1,12 +1,13 @@
 package com.sinjinsong.minirest.beans.factory.impl;
 
-import com.sinjinsong.minirest.util.StringUtils;
 import com.sinjinsong.minirest.beans.exception.BeansException;
 import com.sinjinsong.minirest.beans.factory.ConfigurableListableBeanFactory;
 import com.sinjinsong.minirest.beans.support.beandefinition.BeanDefinition;
 import com.sinjinsong.minirest.beans.support.beandefinition.BeanDefinitionRegistry;
+import com.sinjinsong.minirest.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,7 +21,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
     private List<String> beanDefinitionNames = new ArrayList<>();
-    
+
     @Override
     public Object getBean(String name) throws BeansException {
         BeanDefinition beanDefinition = getBeanDefinition(name);
@@ -79,5 +80,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
             }
         }
         return StringUtils.toStringArray(result);
+    }
+    @Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type)
+            throws BeansException {
+        String[] beanNames = getBeanNamesForType(type);
+        Map<String, T> result = new LinkedHashMap<>(beanNames.length);
+        for (String beanName : beanNames) {
+            Object beanInstance = getBean(beanName);
+            result.put(beanName, (T) beanInstance);
+        }
+        return result;
     }
 }
