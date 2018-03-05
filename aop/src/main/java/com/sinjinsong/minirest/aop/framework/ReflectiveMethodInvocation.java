@@ -21,9 +21,7 @@ import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ReflectiveMethodInvocation implements MethodInvocation {
 
@@ -89,24 +87,14 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
         if (this.currentInterceptorIndex == this.interceptors.size() - 1) {
             return invokeJoinpoint();
         }
-
+        
         MethodInterceptor interceptor =
                 this.interceptors.get(++this.currentInterceptorIndex);
-        interceptor.invoke(this);
-        return proceed();
-        
-        return ((MethodInterceptor) interceptorOrInterceptionAdvice).invoke(this);
+        return interceptor.invoke(this);
     }
 
-    /**
-     * Invoke the joinpoint using reflection.
-     * Subclasses can override this to use custom invocation.
-     *
-     * @return the return value of the joinpoint
-     * @throws Throwable if invoking the joinpoint resulted in an exception
-     */
     protected Object invokeJoinpoint() throws Throwable {
-        return AopUtils.invokeJoinpointUsingReflection(this.target, this.method, this.arguments);
+        return method.invoke(target,arguments);
     }
 
     

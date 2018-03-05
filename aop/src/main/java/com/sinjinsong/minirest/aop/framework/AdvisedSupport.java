@@ -3,7 +3,7 @@ package com.sinjinsong.minirest.aop.framework;
 import com.sinjinsong.minirest.aop.Advisor;
 import com.sinjinsong.minirest.aop.MethodMatcher;
 import com.sinjinsong.minirest.aop.TargetSource;
-import com.sinjinsong.minirest.aop.aspectj.AspectJExpressionPointcut;
+import com.sinjinsong.minirest.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.util.Assert;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * 代理相关的元数据
  */
 public class AdvisedSupport {
-
+    
     private boolean proxyTargetClass = false;
 
     private List<Class<?>> interfaces = new ArrayList<>();
@@ -24,7 +24,7 @@ public class AdvisedSupport {
     private List<Advisor> advisors = new LinkedList<>();
 
     private TargetSource targetSource;
-
+    
 
     public Class<?> getTargetClass() {
         return this.targetSource.getTargetClass();
@@ -96,10 +96,10 @@ public class AdvisedSupport {
     public List<MethodInterceptor> getInterceptors(Method method, Class<?> targetClass) {
         List<MethodInterceptor> result = new ArrayList<>();
         for (Advisor advisor : advisors) {
-            if (advisor instanceof AspectJExpressionPointcut) {
-                AspectJExpressionPointcut pointcutAdvisor = (AspectJExpressionPointcut) advisor;
-                if (pointcutAdvisor.getClassFilter().matches(targetClass)) {
-                    MethodMatcher mm = pointcutAdvisor.getMethodMatcher();
+            if (advisor instanceof AspectJExpressionPointcutAdvisor) {
+                AspectJExpressionPointcutAdvisor pointcutAdvisor = (AspectJExpressionPointcutAdvisor) advisor;
+                if (pointcutAdvisor.getPointcut().getClassFilter().matches(targetClass)) {
+                    MethodMatcher mm = pointcutAdvisor.getPointcut().getMethodMatcher();
                     if (mm.matches(method, targetClass)  ) {
                         result.add((MethodInterceptor) advisor.getAdvice());
                     }

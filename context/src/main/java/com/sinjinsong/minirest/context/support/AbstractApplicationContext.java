@@ -7,6 +7,8 @@ import com.sinjinsong.minirest.beans.support.BeanPostProcessor;
 import com.sinjinsong.minirest.beans.utils.BeanFactoryUtils;
 import com.sinjinsong.minirest.context.ConfigurableApplicationContext;
 
+import java.util.Map;
+
 /**
  * @author sinjinsong
  * @date 2018/3/4
@@ -100,5 +102,10 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
     @Override
     public Object getBean(String name) {
         return getBeanFactory().getBean(name);
+    }
+
+    @Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type) {
+        return getBeanFactory().getBeansOfType(type);
     }
 }

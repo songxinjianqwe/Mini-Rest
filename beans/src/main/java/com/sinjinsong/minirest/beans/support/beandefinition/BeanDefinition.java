@@ -3,39 +3,42 @@ package com.sinjinsong.minirest.beans.support.beandefinition;
 import com.sinjinsong.minirest.beans.enumeration.Autowire;
 import com.sinjinsong.minirest.beans.enumeration.Scope;
 import com.sinjinsong.minirest.beans.support.PropertyValues;
+import com.sinjinsong.minirest.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author sinjinsong
  * @date 2018/3/3
  */
+@Slf4j
 public class BeanDefinition {
     /**
      * bean的唯一标识
      */
     private String id;
-    private Object bean;
     /**
      * beanName就是bean的全类名的字符串形式
      */
     private String beanName;
     private Class beanClass;
     private PropertyValues propertyValues = new PropertyValues();
-    private Scope scope;
-    private Autowire autowire;
-
-    public BeanDefinition(String id,String beanName, String scopeStr, String autowireStr) {
+    private Scope scope = Scope.SINGLETON;
+    private Autowire autowire = Autowire.AUTOWIRE_NO;
+    
+    
+    public BeanDefinition(String id, String beanName, String scopeStr, String autowireStr) {
         this.id = id;
         setBeanName(beanName);
-        if(scopeStr != null) {
-            this.scope  = Scope.valueOf(scopeStr.toUpperCase());
+        try {
+            if (StringUtils.hasText(scopeStr)) {
+                this.scope = Scope.valueOf(scopeStr.toUpperCase());
+            }
+            if (StringUtils.hasText(autowireStr)) {
+                this.autowire = Autowire.valueOf(autowireStr.toUpperCase());
+            }
+        } catch (IllegalArgumentException e) {
+            log.error("configuration file: scope or autowire error");
         }
-        if(autowireStr != null) {
-            this.autowire = Autowire.valueOf(autowireStr.toUpperCase());
-        }
-    }
-    
-    public Object getBean() {
-        return bean;
     }
 
     public String getId() {

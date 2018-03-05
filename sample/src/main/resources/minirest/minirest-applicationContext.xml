@@ -1,12 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <bean id="person" class="com.sinjinsong.minirest.sample.main.Person">
-        <property name="age" value="13"></property>
-        <property name="name" value="sinjinsong"></property>
-        <property name="car" ref="car"></property>
+    <bean id="loginService" class="com.sinjinsong.minirest.sample.service.LoginServiceImpl">
+        <property name="initStr" value="HelloWorld"></property>
+        <property name="userService" ref="userService"></property>
+    </bean>
+
+    <bean id="userService" class="com.sinjinsong.minirest.sample.service.UserServiceImpl"></bean>
+
+    <bean id="autoProxyCreator"
+          class="com.sinjinsong.minirest.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator"></bean>
+    <!--一个切面-->
+    <bean id="loggingAspect" class="com.sinjinsong.minirest.sample.aop.LoggingAspect"></bean>
+    <!--一个切面-->
+    <bean id="timeAspect" class="com.sinjinsong.minirest.sample.aop.TimeAspect"></bean>
+
+    <!-- 配置AOP -->
+    <bean id="loggingAdvisor" class="com.sinjinsong.minirest.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <!-- 配置切面 -->
+        <property name="advice" ref="loggingAspect"></property>
+        <!-- 配置切点 -->
+        <!-- 通过AspectJ表达式可以知道拦截哪个类的哪个方法或哪些方法 -->
+        <property name="expression" value="execution(* com.sinjinsong.minirest.sample.service.*.*(..))"></property>
+    </bean>
+
+    <!-- 配置AOP -->
+    <bean id="timeAdvisor" class="com.sinjinsong.minirest.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <!-- 配置切面 -->
+        <property name="advice" ref="timeAspect"></property>
+        <!-- 配置切点 -->
+        <!-- 通过AspectJ表达式可以知道拦截哪个类的哪个方法或哪些方法 -->
+        <property name="expression" value="execution(* com.sinjinsong.minirest.sample.service.*.*(..))"></property>
     </bean>
     
-    <bean id="car" class="com.sinjinsong.minirest.sample.main.Car">
-        <property name="brand" value="tesla"></property>
-    </bean>
+    <aop-config>
+        <pointcut id="pointcut" expression="xxx"></pointcut>
+        
+        <aspect ref="loggingAspect" order="2">
+            <before methpd="beforeMethod" pointcut-ref="pointcut"></before>
+            <after method="afterMethod" pointcut-ref="pointcut"></after>
+            <after-throwing method="afterThrowing" pointcut-ref="pointcut"></after-throwing>
+            <after-returning method="afterReturning" pointcut-ref="pointcut"></after-returning>
+            <around method="aroundMethod" pointcut-ref="pointcut"></around>
+        </aspect>
+        
+        <aspect ref="timeAspect" order="1">
+            <before methpd="beforeMethod" pointcut-ref="pointcut"></before>
+            <after method="afterMethod" pointcut-ref="pointcut"></after>
+        </aspect>
+    </aop-config>
+
+
 </beans>

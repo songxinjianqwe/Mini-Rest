@@ -2,6 +2,7 @@ package com.sinjinsong.minirest.sample.main;
 
 import com.sinjinsong.minirest.context.ApplicationContext;
 import com.sinjinsong.minirest.context.support.ClassPathXmlApplicationContext;
+import com.sinjinsong.minirest.sample.service.LoginService;
 
 /**
  * @author sinjinsong
@@ -10,7 +11,7 @@ import com.sinjinsong.minirest.context.support.ClassPathXmlApplicationContext;
 public class Main {
     public static void main(String[] args) {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("minirest/minirest-applicationContext.xml");
-        Person p = (Person) ctx.getBean("person");
-        System.out.println(p);
+        LoginService loginService = (LoginService) ctx.getBean("loginService");
+        loginService.login("12345","12345");
     }
 }
