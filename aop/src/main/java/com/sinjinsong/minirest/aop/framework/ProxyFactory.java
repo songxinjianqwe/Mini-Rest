@@ -36,7 +36,7 @@ public class ProxyFactory extends AdvisedSupport {
         return createAopProxy().getProxy();
     }
 
-    protected final synchronized AopProxy createAopProxy() {
+    private AopProxy createAopProxy() {
         if (this.isProxyTargetClass()) {
             Class<?> targetClass = this.getTargetClass();
             if (targetClass == null) {

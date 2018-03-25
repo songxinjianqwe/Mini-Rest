@@ -8,7 +8,7 @@
     <bean id="userService" class="com.sinjinsong.minirest.sample.service.UserServiceImpl"></bean>
 
     <bean id="autoProxyCreator"
-          class="com.sinjinsong.minirest.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator"></bean>
+          class="com.sinjinsong.minirest.aop.aspectj.autoproxy.AspectJAutoProxyCreator"></bean>
     <!--一个切面-->
     <bean id="loggingAspect" class="com.sinjinsong.minirest.sample.aop.LoggingAspect"></bean>
     <!--一个切面-->

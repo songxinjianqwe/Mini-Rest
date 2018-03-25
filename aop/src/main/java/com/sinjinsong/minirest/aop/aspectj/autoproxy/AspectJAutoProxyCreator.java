@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
+public class AspectJAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
     private ListableBeanFactory beanFactory;
 
     @Override
