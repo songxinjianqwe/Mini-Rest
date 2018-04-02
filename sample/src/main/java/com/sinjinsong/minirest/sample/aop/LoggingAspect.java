@@ -13,7 +13,6 @@ import java.util.Arrays;
 @Slf4j
 public class LoggingAspect implements MethodInterceptor {
     
-    
     public void beforeMethod() {
         
     }

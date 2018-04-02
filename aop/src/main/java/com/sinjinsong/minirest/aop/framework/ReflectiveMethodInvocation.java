@@ -77,11 +77,6 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
         return this.arguments;
     }
 
-    public void setArguments(Object... arguments) {
-        this.arguments = arguments;
-    }
-
-    
     public Object proceed() throws Throwable {
         //	We start with an index of -1 and increment early.
         if (this.currentInterceptorIndex == this.interceptors.size() - 1) {

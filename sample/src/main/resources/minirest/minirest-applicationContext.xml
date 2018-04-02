@@ -32,6 +32,19 @@
         <property name="expression" value="execution(* com.sinjinsong.minirest.sample.service.*.*(..))"></property>
     </bean>
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <aop-config>
         <pointcut id="pointcut" expression="xxx"></pointcut>
         

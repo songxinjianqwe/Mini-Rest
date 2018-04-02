@@ -105,7 +105,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * 设置属性
-     *
      * @param bean
      * @param beanDefinition
      * @throws BeansException

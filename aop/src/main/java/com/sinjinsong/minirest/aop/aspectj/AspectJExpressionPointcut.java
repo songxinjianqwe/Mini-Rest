@@ -33,7 +33,7 @@ public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodM
     private String expression;
     
     private static final Set<PointcutPrimitive> DEFAULT_SUPPORTED_PRIMITIVES = new HashSet<PointcutPrimitive>();
-
+    
     static {
         DEFAULT_SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
         DEFAULT_SUPPORTED_PRIMITIVES.add(PointcutPrimitive.ARGS);

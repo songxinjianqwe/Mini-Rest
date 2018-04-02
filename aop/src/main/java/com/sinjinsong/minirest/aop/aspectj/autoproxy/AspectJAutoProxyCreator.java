@@ -41,7 +41,7 @@ public class AspectJAutoProxyCreator implements BeanPostProcessor, BeanFactoryAw
             return bean;
         }
         // 获取适合应用到该bean的所有advisor
-        List<Advisor> specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName);
+        List<Advisor> specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass());
         if (specificInterceptors.size() > 0) {
             // 创建代理
             Object proxy = createProxy(new TargetSource(bean, bean.getClass(), bean.getClass().getInterfaces()), specificInterceptors);
@@ -66,10 +66,9 @@ public class AspectJAutoProxyCreator implements BeanPostProcessor, BeanFactoryAw
      * 获取适合应用在该bean上的所有Advisor
      *
      * @param beanClass
-     * @param beanName
      * @return
      */
-    private List<Advisor> getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName) {
+    private List<Advisor> getAdvicesAndAdvisorsForBean(Class<?> beanClass) {
         List<Advisor> result = new ArrayList<>();
         Map<String, AspectJExpressionPointcutAdvisor> beans = BeanFactoryUtils.beansOfType(beanFactory, AspectJExpressionPointcutAdvisor.class);
         beans.forEach((advisorBeanName, advisor) -> {
